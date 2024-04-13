@@ -1,0 +1,41 @@
+<div class="container">
+    <mat-form-field class="full-width">
+        <mat-label>Search input</mat-label>
+        <input matInput type="text" [(ngModel)]="value" (keyup.enter)="search()" (keyup)="applyFilter($event)" #input>
+        @if (value) {
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon>close</mat-icon>
+        </button>
+        }
+    </mat-form-field>
+</div>
+
+
+<div *ngIf="totalItems>0" class="container">
+    <table mat-table [dataSource]="resultItems" class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="IntCode">
+            <th mat-header-cell *matHeaderCellDef> IntCode </th>
+            <td mat-cell *matCellDef="let element"> {{element.IntCode}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="TapeLabel">
+            <th mat-header-cell *matHeaderCellDef> TapeLabel </th>
+            <td mat-cell *matCellDef="let element"> {{element.TapeLabel}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+     <mat-paginator [length]="totalItems"
+               [pageSize]="itemsPerPage"
+               [pageSizeOptions]="[3,6,9]"
+               (page)="onPaginator($event)"
+               aria-label="Select page"
+               [showFirstLastButtons]="true"
+               >
+    </mat-paginator>
+</div>
